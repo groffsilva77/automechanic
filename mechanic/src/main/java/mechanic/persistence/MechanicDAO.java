@@ -1,6 +1,6 @@
 package mechanic.persistence;
 
-import model.Mechanic;
+import mechanic.model.Mechanic;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,7 +35,7 @@ public class MechanicDAO implements GenericDAO<Mechanic> {
         if (old != null) {
             old.setName(updatedMechanic.getName());
             old.setPhoneNumber(updatedMechanic.getPhoneNumber());
-            old.setSpecialty(updatedMechanic.getSpecialty());
+            old.setSpecialization(updatedMechanic.getSpecialization());
             old.setHourlyRate(updatedMechanic.getHourlyRate());
             return true;
         }

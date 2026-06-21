@@ -1,6 +1,6 @@
 package mechanic.model;
 
-public class Car extends Vehicle {
+public final class Car extends Vehicle {
     private int numberOfDoors;
 
     public Car() {
@@ -8,8 +8,8 @@ public class Car extends Vehicle {
         this.numberOfDoors = 0;
     }
 
-    public Car(int id, String brand, String model, String plateNumber, Client owner, int numberOfDoors) {
-        super(id, brand, model, plateNumber, owner);
+    public Car(int id, tring plateNumber, String brand, String model, Client owner, int numberOfDoors) {
+        super(id, plateNumber, brand, model, owner);
         this.numberOfDoors = numberOfDoors;
     }
 

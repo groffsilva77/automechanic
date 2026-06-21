@@ -1,6 +1,6 @@
 package mechanic.persistence;
 
-import model.Client;
+import mechanic.model.Client;
 import java.util.List;
 
 import javax.annotation.processing.SupportedSourceVersion;
@@ -8,7 +8,7 @@ import javax.annotation.processing.SupportedSourceVersion;
 import java.util.ArrayList;
 
 public class ClientDAO implements GenericDAO<Client> {
-    private static final List<com.sun.security.ntlm.Client> data = new ArrayList<>();
+    private static final List<Client> data = new ArrayList<>();
     private static int idCounter = 1;
 
     @Override
@@ -18,12 +18,12 @@ public class ClientDAO implements GenericDAO<Client> {
     }
 
     @Override
-    public List<Client> listALL() {
+    public List<Client> listAll() {
         return new ArrayList<>(data);
     }
 
     @Override
-    public Client findByID(int id) {
+    public Client findById(int id) {
         for (mechanic.model.Client c : data) {
             if (c.getId() == id) {
                 return c;
@@ -34,7 +34,7 @@ public class ClientDAO implements GenericDAO<Client> {
 
     @Override
     public boolean update(mechanic.model.Client updatedClient) {
-        mechanic.model.Client old = findByID(updatedClient.getId());
+        mechanic.model.Client old = findById(updatedClient.getId());
         if (old != null) {
             old.setName(updatedClient.getName());
             old.setPhoneNumber(updatedClient.getPhoneNumber());
@@ -46,7 +46,7 @@ public class ClientDAO implements GenericDAO<Client> {
 
     @Override
     public boolean delete(int id) {
-        Client c = findByID(id);
+        Client c = findById(id);
         if (c != null) {
             return data.remove(c);
         }

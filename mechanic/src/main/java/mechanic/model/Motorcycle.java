@@ -1,6 +1,6 @@
 package mechanic.model;
 
-public class Motorcycle extends Vehicle {
+public final class Motorcycle extends Vehicle {
     private int cylinderCapacity;
 
     public Motorcycle() {
@@ -8,8 +8,8 @@ public class Motorcycle extends Vehicle {
         this.cylinderCapacity = 0;
     }
 
-    public Motorcycle(int id, String brand, String model, String plateNumber, Client owner, int cylinderCapacity) {
-        super(id, brand, model, plateNumber, owner);
+    public Motorcycle(int id,  String plateNumber, String brand, String model, Client owner, int cylinderCapacity) {
+        super(id, plateNumber, brand, model, owner);
         this.cylinderCapacity = cylinderCapacity;
     }
 

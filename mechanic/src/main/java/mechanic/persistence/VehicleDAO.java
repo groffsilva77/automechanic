@@ -1,6 +1,6 @@
 package mechanic.persistence;
 
-import model.Vehicle;
+import mechanic.model.Vehicle;
 import java.util.ArrayList;
 import java.util.List;
 

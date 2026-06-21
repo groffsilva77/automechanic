@@ -36,7 +36,7 @@ public class ServiceOrder {
             this.mechanic.getName(),
             this.description,
             this.estimatedCost
-        )
+        );
     }
 
     public int getId() {

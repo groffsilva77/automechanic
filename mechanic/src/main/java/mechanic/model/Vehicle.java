@@ -7,6 +7,8 @@ public abstract sealed class Vehicle permits Car, Motorcycle {
     private String plateNumber;
     private Client owner;
 
+    public abstract String getVehicleType();
+
     public Vehicle() {
         this.id = 0;
         this.brand = "";
