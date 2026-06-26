@@ -3,14 +3,24 @@ package mechanic.persistence;
 import mechanic.model.Mechanic;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class MechanicDAO implements GenericDAO<Mechanic> {
-    private static final List<Mechanic> data = new ArrayList<>();
-    private static int idCounter = 1;
+    private static final List<Mechanic> data = new CopyOnWriteArrayList<>();
+    private static final AtomicInteger idCounter = new AtomicInteger(1);
 
     @Override
-    public void save(mechanic.model.Mechanic mecanico) {
-        mecanico.setId(idCounter++);
+    public void save(Mechanic mecanico) {
+        if (mecanico == null) {
+            throw new IllegalArgumentException("Não é possível salvar um mecânico nulo.");
+        }
+        for (Mechanic m : data) {
+            if (m.getName().equalsIgnoreCase(mecanico.getName()) && m.getPhoneNumber().equals(mecanico.getPhoneNumber())) {
+                throw new IllegalArgumentException("Mecânico já cadastrado com este nome e telefone.");
+            }
+        }
+        mecanico.setId(idCounter.getAndIncrement());
         data.add(mecanico);
     }
 
@@ -21,7 +31,7 @@ public class MechanicDAO implements GenericDAO<Mechanic> {
 
     @Override
     public Mechanic findById(int id) {
-        for (mechanic.model.Mechanic m : data) {
+        for (Mechanic m : data) {
             if (m.getId() == id) {
                 return m;
             }
@@ -30,8 +40,10 @@ public class MechanicDAO implements GenericDAO<Mechanic> {
     }
 
     @Override
-    public boolean update(mechanic.model.Mechanic updatedMechanic) {
-        mechanic.model.Mechanic old = findById(updatedMechanic.getId());
+    public boolean update(Mechanic updatedMechanic) {
+        if (updatedMechanic == null) return false;
+
+        Mechanic old = findById(updatedMechanic.getId());
         if (old != null) {
             old.setName(updatedMechanic.getName());
             old.setPhoneNumber(updatedMechanic.getPhoneNumber());

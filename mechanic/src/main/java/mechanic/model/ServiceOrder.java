@@ -27,13 +27,23 @@ public class ServiceOrder {
     }
 
     public String getSummary() {
-        return String.format("OS nº: %d | Status: %s\nCliente: %s | Veículo: %s (%s)\nMecânico Responsável: %s\nDescrição: %s\nValor: R$%.2f",
+        String vehicleModel = (this.vehicle != null) ? this.vehicle.getModel() : "Não informado";
+        String vehicleType = (this.vehicle != null) ? this.vehicle.getVehicleType() : "N/A";
+        
+        String ownerName = "Não informado";
+        if (this.vehicle != null && this.vehicle.getOwner() != null) {
+            ownerName = this.vehicle.getOwner().getName();
+        }
+
+        String mechanicName = (this.mechanic != null) ? this.mechanic.getName() : "Não atribuído";
+
+        return String.format("OS nº: %d | Status: %s\nCliente: %s | Veículo: %s (%s)\nMecânico Responsável: %s\nDescrição: %s\nValor: R$ %.2f",
             this.id,
             this.status,
-            this.vehicle.getOwner().getName(),
-            this.vehicle.getModel(),
-            this.vehicle.getVehicleType(),
-            this.mechanic.getName(),
+            ownerName,
+            vehicleModel,
+            vehicleType,
+            mechanicName,
             this.description,
             this.estimatedCost
         );

@@ -1,18 +1,28 @@
 package mechanic.persistence;
 
-import java.util.ArrayList;
-
-import java.util.List;
-
 import mechanic.model.ServiceOrder;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class ServiceOrderDAO implements GenericDAO<ServiceOrder> {
-    private static final List<ServiceOrder> data = new ArrayList<>();
-    private static int idCounter = 1;
+    private static final List<ServiceOrder> data = new CopyOnWriteArrayList<>();
+    private static final AtomicInteger idCounter = new AtomicInteger(1);
 
     @Override
     public void save(ServiceOrder os) {
-        os.setId(idCounter++);
+        if (os == null) {
+            throw new IllegalArgumentException("Não é possível salvar uma Ordem de Serviço nula.");
+        }
+        if (os.getVehicle() == null) {
+            throw new IllegalArgumentException("Ordem de serviço inválida: nenhuma referência de veículo encontrada.");
+        }
+        if (os.getMechanic() == null) {
+            throw new IllegalArgumentException("Ordem de serviço inválida: nenhum mecânico responsável foi atribuído.");
+        }
+        
+        os.setId(idCounter.getAndIncrement());
         data.add(os);
     }
 
@@ -33,8 +43,14 @@ public class ServiceOrderDAO implements GenericDAO<ServiceOrder> {
 
     @Override
     public boolean update(ServiceOrder updatedOS) {
+        if (updatedOS == null) return false;
+
         ServiceOrder old = findById(updatedOS.getId());
         if (old != null) {
+            if (updatedOS.getVehicle() == null || updatedOS.getMechanic() == null) {
+                throw new IllegalArgumentException("Atualização falhou: Veículo e Mecânico são obrigatórios na OS.");
+            }
+            
             old.setDescription(updatedOS.getDescription());
             old.setEstimatedCost(updatedOS.getEstimatedCost());
             old.setStatus(updatedOS.getStatus());

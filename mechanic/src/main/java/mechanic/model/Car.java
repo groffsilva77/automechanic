@@ -8,7 +8,7 @@ public final class Car extends Vehicle {
         this.numberOfDoors = 0;
     }
 
-    public Car(int id, tring plateNumber, String brand, String model, Client owner, int numberOfDoors) {
+    public Car(int id, String plateNumber, String brand, String model, Client owner, int numberOfDoors) {
         super(id, plateNumber, brand, model, owner);
         this.numberOfDoors = numberOfDoors;
     }
